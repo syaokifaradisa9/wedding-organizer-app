@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone_number',
+        'profile_picture_url',
     ];
 
     /**
@@ -44,5 +46,30 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function clientEvents()
+    {
+        return $this->hasMany(Event::class, 'client_id');
+    }
+
+    public function leadPlannerEvents()
+    {
+        return $this->hasMany(Event::class, 'lead_planner_id');
+    }
+
+    public function assignedChecklistItems()
+    {
+        return $this->hasMany(ChecklistItem::class, 'assignee_id');
+    }
+
+    public function actionLogs()
+    {
+        return $this->hasMany(ActionLog::class);
     }
 }
